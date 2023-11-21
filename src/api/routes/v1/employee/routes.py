@@ -11,11 +11,11 @@ router = APIRouter(
 )
 
 
-@router.get(path="/", status_code=status.HTTP_200_OK)
-async def get_employee_by_id(request: Request, data: request.GetEmployeeById) -> response.Employee:
+@router.get(path="/{employee_id}", status_code=status.HTTP_200_OK)
+async def get_employee_by_id(request: Request, employee_id: int) -> response.Employee:
     repository = EmployeeRepository(request.app.pool)
-    result = await repository.get_employee(data.employee_id)
+    result = await repository.get_employee(employee_id)
     if result:
         return response.Employee(age=result.get("age"), name=result.get("name"))
     
-    raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f"employee not found")
+    raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail=f"employee not found", headers={"X-Error": "employee not found"})

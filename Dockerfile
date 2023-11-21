@@ -13,6 +13,7 @@ RUN python3 -m pip --no-cache-dir install --upgrade pip && \
     pipenv requirements > requirements.txt && \
     python3 -m pip install -r requirements.txt && \
     rm /app/Pipfile && rm /app/Pipfile.lock && rm /app/requirements.txt && \
+    python3 -m pip uninstall pipenv && \
     # Clean Python cache
     find /usr/local/ -name '*.pyc' -print0 | xargs -0 rm -rf || true && \
     find /usr/local/ -type d -name '__pycache__' -print0 | xargs -0 rm -rf || true
